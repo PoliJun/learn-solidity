@@ -1,14 +1,14 @@
 # Learn Solidity
 
-- object oriented
-- state vairable
-  > stored in blockchain itself
-- static type language
-- function
-- modifiers
-- rewriting data on chain costs gas
-- constructor
-- deploy on a chain
+-   object oriented
+-   state vairable
+    > stored in blockchain itself
+-   static type language
+-   function
+-   modifiers
+-   rewriting data on chain costs gas
+-   constructor
+-   deploy on a chain
 
 ## `public` variable
 
@@ -22,8 +22,8 @@ deployed, gives us a free function called `count`.
 
 ### socpe
 
-- state vairables
-- local vairables
+-   state vairables
+-   local vairables
 
 ### private and public
 
@@ -105,3 +105,55 @@ MyStruct public myStruct = MyStruct(1, "Hello");
         return values.length;
     }
 ```
+
+## Mappings
+
+`mapping(Key => Value) modifier variable`
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract myMapping {
+    // Mappings
+    mapping(uint => string) public names;
+    mapping(uint => Book) public books;
+    // Nested Mapping
+    mapping(address => mapping(uint => Book)) public myBooks;
+
+    struct Book {
+        string title;
+        string author;
+    }
+
+    constructor() {
+        names[1] = "Adam";
+        names[2] = "Bruce";
+    }
+    function addBook(
+        uint _id,
+        string memory _title,
+        string memory _author
+    ) public {
+        books[_id] = Book(_title, _author);
+    }
+
+    function addMyBook(
+        uint _id,
+        string memory _title,
+        string memory _author
+    ) public {
+        myBooks[msg.sender][_id] = Book(_title, _author);
+    }
+}
+```
+
+### `msg.sender`
+
+The `msg.sender` you see in the code snippet is a global variable in Solidity, the language used to write smart contracts on the Ethereum blockchain.
+
+In the context of a smart contract, `msg.sender` represents the address of the caller of the current function. If a function is called from a transaction (i.e., initiated by an EOA or Externally Owned Account), `msg.sender` would be the address of the account that started the transaction.
+
+However, if the function is called from another function within a different contract, `msg.sender` would be the address of the contract that made the call, not the original EOA. This is an important distinction to make, as it can affect the control flow in your contract.
+
+In summary, `msg.sender` is a crucial part of Solidity's security model. It allows a contract to verify who is calling a function and enables the implementation of access control mechanisms, such as only allowing the owner of a contract to call a certain function.
