@@ -157,3 +157,45 @@ In the context of a smart contract, `msg.sender` represents the address of the c
 However, if the function is called from another function within a different contract, `msg.sender` would be the address of the contract that made the call, not the original EOA. This is an important distinction to make, as it can affect the control flow in your contract.
 
 In summary, `msg.sender` is a crucial part of Solidity's security model. It allows a contract to verify who is calling a function and enables the implementation of access control mechanisms, such as only allowing the owner of a contract to call a certain function.
+
+## Conditionals
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MyConditionals {
+    // conditions
+    uint256[] public numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function isEven(uint256 _number) public pure returns (bool) {
+        if (_number % 2 == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // loops
+
+    // for loop
+    function countEvenNumbers() public view returns (uint256) {
+        uint256 count = 0;
+        for (uint256 i = 0; i < numbers.length; i++) {
+            if (isEven(numbers[i])) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    function isOwner() public view returns (bool) {
+        return (msg.sender == owner);
+    }
+}
+```
