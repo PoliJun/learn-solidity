@@ -19,7 +19,7 @@ contract HotelRoom {
     event Occupy(address _occupant, uint _value);
 
     constructor() {
-        owner = payable (msg.sender);
+        owner = payable(msg.sender);
         currentStatus = Statuses.Vacant;
     }
     modifier onlyWhileVacant() {

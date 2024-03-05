@@ -5,5 +5,4 @@
     "trailingComma": "all",
     "plugins": ["prettier-plugin-solidity"],
     "printWidth": 80
-    
 }

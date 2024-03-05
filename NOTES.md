@@ -224,3 +224,77 @@ modifier onlyWhileVacant {
         _;
     }
 ```
+
+### don't use `transfer()`
+
+[Transfer() in Solidity: Why you should STOP using it?](https://www.immunebytes.com/blog/transfer-in-solidity-why-you-should-stop-using-it/)
+
+Preventive Measure
+
+We recommend stopping using the transfer() in your code and switching to using call() instead, the most customized method of all.
+
+```solidity
+function sendMoney() public payable {
+    require(msg.value >= 2 ether, "Not enough ether provided.");
+    // using call() instead
+    (bool success, ) = owner.call{ value: msg.value }("");
+    require(success, "Transaction failed.");
+}
+```
+
+## Inheritance
+
+-   Inheritance
+-   Factories
+-   Interactions
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Ownable {
+    address owner;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "You are not the owner.");
+        _;
+    }
+
+    constructor() {
+        owner = msg.sender;
+    }
+}
+contract SecretVault {
+    string secret;
+    constructor(string memory _secret) {
+        secret = _secret;
+    }
+    function getSecret() public view returns (string memory) {
+        return secret;
+    }
+}
+contract DemoContract is Ownable {
+    // Inheritance
+    // Factories
+    // Interactions
+
+    address secretVault;
+
+    constructor(string memory _secret) public {
+        SecretVault _secretVault = new SecretVault(_secret);
+        secretVault = address(_secretVault);
+        super;
+    }
+
+    function getSecret() public view onlyOwner returns (string memory) {
+        // call another contract
+        return SecretVault(secretVault).getSecret();
+    }
+}
+```
+
+### `is`
+
+`contract DemoContract is Ownable`
+
+### `super`
