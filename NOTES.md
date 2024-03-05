@@ -199,3 +199,28 @@ contract MyConditionals {
     }
 }
 ```
+
+## HotelRoom example
+
+### payable
+
+```solidity
+address payable public owner;
+```
+
+### require function
+
+Checks if the condition is true, if not, it throws an error.
+
+```solidity
+require(msg.value >= 2 ether, "Not enough ether provided.");
+```
+
+### modifiers
+
+```solidity
+modifier onlyWhileVacant {
+        require(isVacant, "Currently occupied.");
+        _;
+    }
+```
